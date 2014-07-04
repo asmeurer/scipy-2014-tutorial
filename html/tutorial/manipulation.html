@@ -181,7 +181,7 @@ The SymPy class for multiplication is <tt class="docutils literal"><span class="
 <p>Now we get to our final expression, <tt class="docutils literal"><span class="pre">x**2</span> <span class="pre">+</span> <span class="pre">x*y</span></tt>.  This is the addition of
 our last two objects, <tt class="docutils literal"><span class="pre">Pow(x,</span> <span class="pre">2)</span></tt>, and <tt class="docutils literal"><span class="pre">Mul(x,</span> <span class="pre">y)</span></tt>.  The SymPy class for
 addition is <tt class="docutils literal"><span class="pre">Add</span></tt>, so, as you might expect, to create this object, we use
-<tt class="docutils literal"><span class="pre">Add(Pow(x,</span> <span class="pre">2),</span> <span class="pre">Mul(x,</span> <span class="pre">y)</span></tt>.</p>
+<tt class="docutils literal"><span class="pre">Add(Pow(x,</span> <span class="pre">2),</span> <span class="pre">Mul(x,</span> <span class="pre">y))</span></tt>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Add</span><span class="p">(</span><span class="n">Pow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
 <span class="go">x**2 + x*y</span>
 </pre></div>
@@ -191,8 +191,7 @@ broad.  Here is a more complicated example</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">expr</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">y</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">srepr</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
 <span class="go">&quot;Add(Mul(Integer(-1), Pow(Symbol(&#39;x&#39;), Integer(2))), Mul(Rational(1, 2),</span>
-<span class="go">Function(&#39;sin&#39;)(Mul(Symbol(&#39;x&#39;), Symbol(&#39;y&#39;)))), Pow(Symbol(&#39;y&#39;),</span>
-<span class="go">Integer(-1)))&quot;</span>
+<span class="go">sin(Mul(Symbol(&#39;x&#39;), Symbol(&#39;y&#39;)))), Pow(Symbol(&#39;y&#39;), Integer(-1)))&quot;</span>
 </pre></div>
 </div>
 <p>Here is a diagram</p>
@@ -468,7 +467,7 @@ tree.  The nested nature of <tt class="docutils literal"><span class="pre">args<
 The base case will be empty <tt class="docutils literal"><span class="pre">args</span></tt>.  Let&#8217;s write a simple function that goes
 through an expression and prints all the <tt class="docutils literal"><span class="pre">args</span></tt> at each level.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">pre</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">print</span> <span class="n">expr</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
 <span class="gp">... </span>        <span class="n">pre</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
 </pre></div>
@@ -493,7 +492,7 @@ post-order traversal function.</p>
 <tt class="docutils literal"><span class="pre">preorder_traversal</span></tt> and <tt class="docutils literal"><span class="pre">postorder_traversal</span></tt> are provided to make such
 traversals easy.  We could have also written our algorithm as</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">preorder_traversal</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">print</span> <span class="n">arg</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
 <span class="go">x*y + 1</span>
 <span class="go">1</span>
 <span class="go">x*y</span>
@@ -522,21 +521,14 @@ which differs from <tt class="docutils literal"><span class="pre">sympify</span>
 <table class="docutils footnote" frame="void" id="singleton-fn" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><p class="first">Classes like <tt class="docutils literal"><span class="pre">One</span></tt> and <tt class="docutils literal"><span class="pre">Zero</span></tt> are singletonized, meaning
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>Classes like <tt class="docutils literal"><span class="pre">One</span></tt> and <tt class="docutils literal"><span class="pre">Zero</span></tt> are singletonized, meaning
 that only one object is ever created, no matter how many times the class is
 called.  This is done for space efficiency, as these classes are very
 common.  For example, <tt class="docutils literal"><span class="pre">Zero</span></tt> might occur very often in a sparse matrix
 represented densely.  As we have seen, <tt class="docutils literal"><span class="pre">NegativeOne</span></tt> occurs any time we
 have <tt class="docutils literal"><span class="pre">-x</span></tt> or <tt class="docutils literal"><span class="pre">1/x</span></tt>.  It is also done for speed efficiency because
 singletonized objects can be compared by <tt class="docutils literal"><span class="pre">is</span></tt>.  The unique objects for
-each singletonized class can be accessed from the <tt class="docutils literal"><span class="pre">S</span></tt> object.</p>
-<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="o">.</span><span class="n">Zero</span>
-<span class="go">0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="o">.</span><span class="n">Zero</span> <span class="ow">is</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="go">True</span>
-</pre></div>
-</div>
-</td></tr>
+each singletonized class can be accessed from the <tt class="docutils literal"><span class="pre">S</span></tt> object.</td></tr>
 </tbody>
 </table>
 </div>
@@ -618,7 +610,7 @@ each singletonized class can be accessed from the <tt class="docutils literal"><
     </div>
     <div class="footer">
         &copy; Copyright 2013 SymPy Development Team.
-      Last updated on Jun 29, 2013.
+      Last updated on Jul 04, 2014.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
